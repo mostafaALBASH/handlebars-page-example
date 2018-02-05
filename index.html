@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Hello Handlebars</title>
+
+  <style>
+    body{
+      padding: 30px;
+    }
+    #myDiv{
+      border-radius: 25px;
+      padding: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    p {
+      color: black;
+    }
+    hr {
+       border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #999;
+    }
+  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+  <script src="handlebars-v4.0.11.js"></script>
+</head>
+
+<body>
+<!--main section-->
+<div class="container">
+<div id="contentDiv"></div>
+</div>
+
+<!--HBS script-->
+
+<script id="the-template" type="text/x-handlebars-template">
+<!--html needs to compile-->
+<div  id="myDiv" class="bg-info  text-white">
+
+<!--el tab3een search form-->
+<h2 style="text-align:center">user</h2>
+  <br>
+  <br>
+
+      <form class="row">
+        <fieldset class="col">
+          <div class="form-group">
+            <label  for="_Num">user number</label>
+            <!--DETERMIN THE STATE OF INPUT DEPENDING ON RADIO BUTTON VALUES IN HBS ASSIGNS AND BLOCK HELPERS-->
+            {{#if radioStateId}}
+            <input id="_NumForm" type="text" class="form-control" id="_Num" placeholder="enter user id" name="_Num" value="{{radioStateId}}">
+            {{else}}
+            <input id="_NumForm" type="text" class="form-control" id="_Num" placeholder="enter user code" name="_Num" value="{{radioStateId}}">
+            {{/if}}
+          </div>
+          <br>
+          <br>
+          <div class="radio">
+            <label><input type="radio" name="remember" id="_NumRadio">search</label>
+          </div>
+
+        </fieldset>
+
+        <fieldset class="col">
+          <div class="form-group">
+            <label for="_Id"  >id number</label>
+             <!--DETERMIN THE STATE OF INPUT DEPENDING ON RADIO BUTTON USING HBS ASSIGNS AND BLOCK HELPERS-->
+            {{#if radioStateNum}}
+            <input id="_IdForm" type="text" class="form-control" class="_Id" placeholder="enter user id" name="_Id" class="_Id" value="{{radioStateNum}}">
+           {{else}}
+           <input id="_IdForm" type="text" class="form-control" class="_Id" placeholder="enter user code" name="_Id" disabled class="_Id" value="{{radioStateNum}}">
+           {{/if}}
+            <select class="dropdown" style="margin:1% 50%;width: 50%; border-radius: 5px; padding: 5px;" class="form-control">
+              <!--MOHEMA FASHKH -> WE USED #EACH FROM HBS TO LOOP THROW THE ARRAY - AND WE MAKE BLOCK HELPER TO _INT THE SELECTOR-->
+                {{#each identityType}} 
+                  {{#myDropdown this.item}}
+                  {{/myDropdown}}
+                {{/each}}
+             
+            </select>
+
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="remember" id="_IdRadio">search</label>
+          </div>
+
+        </fieldset>
+        <div class="w-100"></div>
+
+        <div class="w-100"></div>
+
+        <br>
+        <button id="mySearch" type="button" class="btn btn-white" value="_DataById" style="margin:0% auto">ابحث</button>
+      </form>
+</div>
+<div>
+  
+  <hr>
+
+
+
+
+<!--el tab3een grid -> USING HBS STRING INTERPULATION -->
+
+  <fieldset>
+    <legend style="color:black" >user data</legend>
+    
+  <div class="row">
+    <div class="col">
+      <label >user number</label>
+      <p>{{userNumber}}</p>
+    </div>
+    <div class="col">
+    <label >user name</label>
+      <p>{{userName}}</p>
+    </div>
+    <div class="col">
+    <label >id type</label>
+      <p>{{idType}}</p>
+    </div>
+
+    <div class="w-100"></div>
+
+      <div class="col">
+      <label >id number</label>
+      <p>{{idNumber}}</p>
+    </div>
+    <div class="col">
+    <label >nationality</label>
+      <p>{{userNationality}}</p>
+    </div>
+    <div class="col">
+    <label >حالة user state</label>
+      <p>{{userState}}</p>
+    </div>
+
+    <div class="w-100"></div>
+
+        <div class="col">
+      <label >case</label>
+      <p>{{userCase}}</p>
+    </div>
+    <div class="col">
+    <label >case number</label>
+      <p>{{detainNumber}}</p>
+    </div>
+    <div class="col">
+    <label >detained date</label>
+      <p>{{detainDate}}</p>
+    </div>
+      <div class="w-100"></div>
+        <div class="col">
+    <label >release date</label>
+      <p>{{expectedReleaseDate}}</p>
+    </div>
+
+
+  </div>
+
+  </fieldset>
+  <hr>
+</div>
+
+<!--_INTING COMPANIONS FROM HBS CONTEXT-->
+  <table class="table">
+    <h1>user data</h1>
+    <thead>
+      <tr>
+        <th>id number</th>
+        <th>name</th>
+        <th>nationality</th>
+      </tr>
+    </thead>
+    <tbody>
+          {{#each companions}} 
+          {{#myTable this.id this.name this.nationality}}
+          {{/myTable}}
+          {{/each}}
+    </tbody>
+  </table>
+
+
+</script>
+
+
+<!--text/javascript-->
+
+<script type="text/javascript">
+
+// make templateInfo og hbs ready for compiling
+var templateInfo = document.getElementById("the-template").innerHTML;
+
+  // Compile the template
+  var template = Handlebars.compile(templateInfo);
+
+  // IN ORDER TO _INT THE OPTHIONS IN THE DROPDOWN
+
+  Handlebars.registerHelper("myDropdown", function(name, options){
+    return `<option value="{{this.value}}">` + name + `</option>`
+  })
+
+   // IN ORDER TO _INT THE TABLE OF COMPANIONS
+
+    Handlebars.registerHelper("myTable", function(name1, name2, name3, options){
+    return `<tr>
+              <td>`+ name1 +`</td>
+              <td>`+ name2 +`</td>
+              <td>`+ name3 +`</td>
+            </tr>`
+  })
+
+
+
+  // MOHEMA FASHKH --> CHANGE STATUES OF INPUT (( IT IS ASSIGNED TO TRUE ))
+
+  Handlebars.registerHelper("if", function(data, options){
+    if(data === true){
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
+  });
+ 
+ // HBS VARIABLES
+
+  var templateData = template({
+    userNumber: "1011",
+    userName: "محمد محمود علي سعيد",
+    idType: "مقيم",
+    idNumber: "22336587789",
+    userNationality: "سعودي",
+    userState: "موقوف",
+    userCase: "سرقة",
+    detainNumber: "669955",
+    detainDate: "13/11/2017",
+    expectedReleaseDate: "13/11/2018",
+    identityType:[
+      {item: 'نوع الهوية', value: 'no3 el hawaiya'},
+      {item: 'مصري', value: 'masry'},
+      {item: 'سعودي', value: 's3ody'},
+      {item: 'يمني', value: 'yamany'},
+    ],
+    radioStateNum: false,
+    radioStateId: true,
+
+    companions:[
+      {
+        id:123456,
+        name:'أحمد محمد علي',
+        nationality: 'مصري'
+      },
+      {
+        id:654321,
+        name:'محمود حمدي زكي',
+        nationality: 'سوري'
+      },
+      {
+        id:123456,
+        name:'حسني فتحي علي',
+        nationality: 'ليبي'
+      }]
+  });
+
+
+// _INT COMPILED HBS TO HTML DOCUMENT
+document.getElementById('contentDiv').innerHTML += templateData;
+
+
+
+// CHANGE RADIO BUTTONS STATUS
+
+var _NumRadio = document.getElementById('_NumRadio');
+var _IdRadio = document.getElementById('_IdRadio');
+
+_IdForm.disabled =true;
+
+  _IdRadio.addEventListener("click",function(){
+  _NumForm.disabled = !_NumForm.disabled;
+  _IdForm.disabled =! _IdForm.disabled;
+  });
+
+    _NumRadio.addEventListener("click",function(){
+    _IdForm.disabled =! _IdForm.disabled;
+    _NumForm.disabled = !_NumForm.disabled;
+});
+
+document.getElementById('mySearch').addEventListener("click", function(){
+  
+  console.log(templateInfo);
+})
+
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+</body>
+</html>
